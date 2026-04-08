@@ -1,0 +1,21 @@
+name: CI/CD to OpenShift
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Build & Push Image
+        run: |
+          echo "Build logic here"
+
+      - name: Deploy to OpenShift
+        run: |
+          echo "Deploy logic here"
