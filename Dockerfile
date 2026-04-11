@@ -1,4 +1,3 @@
-# Build stage
 FROM node:18 AS build
 
 WORKDIR /app
@@ -8,9 +7,15 @@ RUN npm install
 COPY . .
 RUN npm run build
 
-# Production stage (IMPORTANT CHANGE)
 FROM nginxinc/nginx-unprivileged:stable-alpine
 
+# REMOVE default config
+RUN rm /etc/nginx/conf.d/default.conf
+
+# COPY custom config
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# COPY build
 COPY --from=build /app/build /usr/share/nginx/html
 
 EXPOSE 8080
